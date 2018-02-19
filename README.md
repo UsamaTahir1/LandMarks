@@ -34,7 +34,9 @@ Most time was spent on front end with ReactJs (12 hours). Backend process was sm
 # 4.	Running the Solution
 *	Clone the Git repository in some folder OR download the zip folder and extract it.
 *	Got to Api folder and open the Api.sln file in Visual Studio 2017.
-*	Run Update-Database from the Package Manager Console to generate the localdb databse.
+*	Run following from the Package Manager Console to generate the localdb databse.
+      * Add-Migration StartTheBuilding
+      * Update-Database
 *	Start the project by pressing F5 for debugging Or Ctrl+ F5 without debugging. If this does not start the project, then go to the folder containing Api.sln. Go to Api folder. Now open Command line tool in this folder and run following commands one by one:
     *	dotnet build
     *	dotnet run
