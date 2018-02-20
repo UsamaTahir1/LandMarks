@@ -5,7 +5,7 @@ import RemarkComponent from './RemarkComponent';
 import { landmarkActions } from '../../_actions';
 import { landmarkService } from '../../_services';
 import {config} from '../../_helpers/config'
-const AnyReactComponent = ({  img_src }) => <div><img src={img_src} className="YOUR-CLASS-NAME" style={{}} /></div>;
+
 class MapSettings{
   constructor()
   {
@@ -35,6 +35,7 @@ class MyGoogleMapClass extends Component {
     var queryText = this.state.query;//event.target.value;
     
     let filteredMarkers = [];
+    let index =0;
     this.state.globalMarkers.map((landmark) => {
       let addIt = false;
       for (let i = 0; i < landmark.otherNotes.length; i++) {
@@ -45,7 +46,8 @@ class MyGoogleMapClass extends Component {
           break;
         }
       }
-      if(addIt){filteredMarkers.push(landmark);addIt = false;}
+      if(addIt){filteredMarkers.push(this.state.gloablLandMarks[index]);addIt = false;}
+      index++;
     });
     if(filteredMarkers.length > 0){
       this.clearMarkers();
@@ -62,21 +64,24 @@ class MyGoogleMapClass extends Component {
     if(this.props.state.landmarks && this.props.state.landmarks.allLandMarks){
       this.setState({globalMarkers: this.props.state.landmarks.allLandMarks});
 
-        this.state.globalMarkers.map((landMark) => 
+        this.state.globalMarkers.forEach((landMark) => 
         this.loadMapMarker(map, landMark, false,true)
       );
     //}
   }
     //Gets the users current location,
-    findUserCurrentGeolocation(this.markUserCurrentLocation.bind(this, map), this.markUserCurrentLocation.bind(this, map, mapSettings.defaultUserCoordinates));
+    this.panToCurrentLocation();
+}
+panToCurrentLocation(){
+  findUserCurrentGeolocation(this.markUserCurrentLocation.bind(this, this.mapReference), this.markUserCurrentLocation.bind(this, this.mapReference, mapSettings.defaultUserCoordinates));
 }
 loadFilteredLandmarks(map,landmarks) {
-      landmarks.map((landMark) => 
-        this.loadMapMarker(map, landMark, false,false)
+      landmarks.forEach((landMark) => 
+        landMark.setMap(map)
     );
 }
  setMapOnAll(map) {
-      this.state.gloablLandMarks.map((marker) => 
+      this.state.gloablLandMarks.forEach((marker) => 
       marker.setMap(map));
 }
 
@@ -108,7 +113,8 @@ loadMapMarker(map, landMark, isNewLandmark,updateState) {
   var lat = landMark.latitude;
   var lng = landMark.longitude;
   const marker = new google.maps.Marker({
-      position: {lat: landMark.latitude, lng: landMark.longitude}
+      position: {lat: landMark.latitude, lng: landMark.longitude},
+      animation: google.maps.Animation.DROP
   });
   this.addLandMarkRemark(map, marker, landMark, isNewLandmark);
   marker.setMap(map);
@@ -247,8 +253,10 @@ loadMapInComponent(map,maps){
          onGoogleApiLoaded={({map, maps}) => this.loadMapInComponent(map,maps)}
        >
        </GoogleMapReact>    
+       
        <div className="col-md-12 pull-left">
               <div className="form-group form-control-by-1">
+         <img src="./src/_helpers/currentlocation.png" style={{width:'50px',height: '50px'}} title="Go To Current Location" onClick={event => this.panToCurrentLocation()}/>
                 <input type="text" className="form-control-search search-input-box" id="name" name="name" value={this.state.name} 
                 onChange={event => {
                   this.setState({query: event.target.value});
