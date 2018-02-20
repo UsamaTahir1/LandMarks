@@ -27,9 +27,9 @@ Once I got the basic structure cleared in my mind, I implemented user authentica
 Most time was spent on front end with ReactJs (12 hours). Backend process was smooth (5 hours). Overall time spent is around 17 hours.
 
 # 3.	Limitations
-•	For some reason I am only able to edit markers which are in the bottom half of the map. It might be an issue with the offsets with respect to map.
-•	First time Adding the comment appears without username. 
-•	Searching in handled on front end as I was trying to play around with sate manipulations in Reactjs. It sometimes shows more markers on map than necessary.
+* For some reason I am only able to edit markers which are in the bottom half of the map. It might be an issue with the offsets with respect to map.
+* First time Adding the comment appears without username. 
+* Searching in handled on front end as I was trying to play around with sate manipulations in Reactjs. It sometimes shows more markers on map than necessary. (resolved)
 
 # 4.	Running the Solution
 *	Clone the Git repository in some folder OR download the zip folder and extract it.
